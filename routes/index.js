@@ -4,8 +4,4 @@ var db = require("../models/blog");
 
 /* GET home page. */
 
-router.get("/", function(req, res, next) {
-  res.render("welcome", { title: "Express" });
-});
-
 module.exports = router;
