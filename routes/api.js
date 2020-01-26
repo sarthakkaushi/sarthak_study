@@ -1,8 +1,8 @@
 var express = require("express");
 var router = express.Router();
 var db = require("../models/blog");
-var slugify = require("slugify");
 const verify = require("../config/verifyToken");
+const helper = require("../helper/helper");
 
 /* GET home page. */
 router.get("/all/post", function(req, res, next) {
@@ -16,18 +16,13 @@ router.post("/post", verify, async (req, res) => {
   const name = await db.User.findById(id).then(r => {
     return r.name;
   });
-  //   var author = {
-  //     id: req.user._id,
-  //     username: req.user.username
-  // }
+  const slug = await helper.uniquieSlug(req.body.title).then(r => {
+    return r.slug;
+  });
   let sendData = {
     title: req.body.title,
     text: req.body.content,
-    slug: slugify(req.body.title, {
-      replacement: "-", // replace spaces with replacement
-      remove: null, // regex to remove characters
-      lower: true // result in lower case
-    }),
+    slug: slug,
     author: {
       id,
       name

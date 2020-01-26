@@ -72,7 +72,7 @@ router.post("/register", (req, res) => {
                   "success_msg",
                   "You are now registered and can log in"
                 );
-                res.redirect("/api/users/login");
+                res.redirect("/login");
               })
               .catch(err => console.log(err));
           });
