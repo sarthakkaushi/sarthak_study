@@ -92,10 +92,16 @@ router.post("/register", (req, res) => {
 // });
 //Login WIth JWT Token
 router.post("/login", async (req, res) => {
+  console.log(`Login Request Recevied`);
   const user = await db.User.findOne({ email: req.body.email });
+
   if (!user) return res.status(400).send("Email does't exist");
+  console.log(`USER Found`);
+
   const validPass = await bcrypt.compare(req.body.password, user.password);
   if (!validPass) return res.status(400).send("Password Does not match");
+  console.log(`PassWord Matched`);
+
   //Create And Assign Token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   res.send({ loggedIn: true, token: token, user: user });
